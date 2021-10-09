@@ -172,22 +172,4 @@ class AuthMainController extends Controller
         return redirect()->back();
     }
 
-    public function like(Request $request)
-    {
-        $userLiked = Auth::user()->id;
-        $userCompliment = User::find($request->get('user_id'));
-        $userCompliment->liked()->attach($userLiked);
-
-        return redirect(route('index'));
-    }
-
-    public function deleteLike(Request $request)
-    {
-        $userLiked = Auth::user()->id;
-        $userCompliment = User::find($request->get('user_id'));
-        $userCompliment->liked()->detach($userLiked);
-
-        return redirect(route('index'));
-    }
-
 }

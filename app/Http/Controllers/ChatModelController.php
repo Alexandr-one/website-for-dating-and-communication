@@ -17,7 +17,13 @@ class ChatModelController extends Controller
         $user = User::find($id);
         $chat = $user->chat()->find(Auth::user());
         $userChats = Message::where('chat_id','=',$chat->pivot->chat_id)->get();
+
         return view('chat',compact('user','userChats'));
+    }
+
+    public function image($id)
+    {
+        return Message::findOrFail($id);
     }
 
     public function createChat(Request $request)
@@ -27,6 +33,7 @@ class ChatModelController extends Controller
         $user_first_id = User::find($request->get('users_id'));
         $user_first_id->chat()->attach($user_sec_id->id,['chat_id' => $token]);
         $user_sec_id->chat()->attach($user_first_id->id,['chat_id' => $token]);
+
         return $user_sec_id;
     }
 
@@ -38,6 +45,18 @@ class ChatModelController extends Controller
             'author_id' => $request->get('user_id'),
             'content' => $image,
         ]);
-        return redirect()->back();
+
+        return $message;
+    }
+
+    public function postMessage(Request $request)
+    {
+        $message = Message::create([
+            'chat_id' => $request->get('chat_id'),
+            'author_id' => $request->get('user_id'),
+            'content' => $request->get('text'),
+        ]);
+
+        return $message;
     }
 }

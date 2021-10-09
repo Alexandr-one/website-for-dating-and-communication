@@ -17,8 +17,8 @@ class ProfileController extends Controller
     {
         $like = LikeUser::get()->where('user_compliment_id', '=' ,Auth::user()->id);
         $message = session()->get('message');
-
-        return view('profile',compact('message','like'));
+        $users = User::get();
+        return view('profile',compact('message','like','users'));
     }
     public function change(ChangeRequest $request)
     {

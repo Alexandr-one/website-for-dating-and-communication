@@ -11,12 +11,6 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
-    public function image($id)
-    {
-
-        return Message::findOrFail($id);
-    }
-
     public function show($id)
     {
 
@@ -39,13 +33,5 @@ class UserController extends Controller
         return $userCompliment;
     }
 
-    public function postMessage(Request $request)
-    {
-        $message = Message::create([
-            'chat_id' => $request->get('chat_id'),
-            'author_id' => $request->get('user_id'),
-            'content' => $request->get('text'),
-        ]);
-        return $message;
-    }
+
 }
