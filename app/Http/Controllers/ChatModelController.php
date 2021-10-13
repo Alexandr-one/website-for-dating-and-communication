@@ -21,6 +21,20 @@ class ChatModelController extends Controller
         return view('chat',compact('user','userChats'));
     }
 
+    public function changeMess(Request $request)
+    {
+        $message = Message::find($request->get('id'));
+        $message->content = $request->get('message');
+        $message->save();
+
+        return redirect()->back();
+    }
+    public function deleteMessage($id)
+    {
+        $message = Message::find($id)->delete();
+
+        return $message;
+    }
     public function image($id)
     {
         return Message::findOrFail($id);
@@ -46,7 +60,7 @@ class ChatModelController extends Controller
             'content' => $image,
         ]);
 
-        return $message;
+        return redirect()->back();
     }
 
     public function postMessage(Request $request)

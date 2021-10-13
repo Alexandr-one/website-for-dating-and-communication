@@ -18,6 +18,10 @@ class AuthMainController extends Controller
 {
     public function main()
     {
+        return view('first');
+    }
+    public function registration()
+    {
         $user_id = 0;
         $like = LikeUser::get()->where('user_compliment_id', '=' ,$user_id and Auth::user()->id,'user_liked_id');
         $loginError = session()->get('loginErrors');
@@ -49,14 +53,17 @@ class AuthMainController extends Controller
             $users->where('sex',$request->get('sex'));
             $getSex = $request->get('sex');
         }
+
         if($request->get('town')){
             $users->where('town',$request->get('town'));
             $getTown = $request->get('town');
         }
+
         if($request->get('country')){
             $users->where('country',$request->get('country'));
             $getCountry = $request->get('country');
         }
+
         if($name = $request->get('nameFilled')){
             $users->where('name','LIKE',"%" . $name . "%");
             $getPar = $request->get('nameFilled');
@@ -71,13 +78,14 @@ class AuthMainController extends Controller
             $users->where('age','>=', $request->get('min_age'));
             $getAgeMinPar = $request->get('min_age');
         }
+
         if($request->get('max_age')) {
             $users->where('age', '<=', $request->get('max_age'));
             $getAgeMaxPar = $request->get('max_age');
         }
-        $users = $users->paginate(6)
-                        ->withPath('?' . $request->getQueryString());
 
+        $users = $users->paginate(8)
+                        ->withPath('?' . $request->getQueryString());
         $message = session()->get('message');
 
         return view('main', compact('users', 'getTown','getCountry','message','getSex', 'selPar', 'getPar','getAgeMinPar','getAgeMaxPar'));
@@ -117,11 +125,12 @@ class AuthMainController extends Controller
         $user = User::create([
             'name' => $request->get('name'),
             'surname' => $request->get('surname'),
-            'patronymic' => $request->get('patronymic'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
             'image' => $image,
             'age' => $age,
+            'country' => $request->get('country'),
+            'town' => $request->get('town'),
             'date_of_birth' => $request->get('date_of_birth'),
             'sex' => $request->filled("male") ? "Мужской" : ($sex ? "Женский" : "Специфичный"),
         ]);
@@ -149,7 +158,7 @@ class AuthMainController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect(route('homepage'));
+        return redirect(route('first'));
     }
 
     public function send(Request $request)

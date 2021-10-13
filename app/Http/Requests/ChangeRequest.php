@@ -26,7 +26,6 @@ class ChangeRequest extends FormRequest
         return [
             'name' => 'required',
             'surname' => 'required',
-            'patronymic' => 'required',
             'email'=> 'required',
         ];
     }

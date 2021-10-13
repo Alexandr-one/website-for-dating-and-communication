@@ -17,8 +17,7 @@ class ProfileController extends Controller
     {
         $like = LikeUser::get()->where('user_compliment_id', '=' ,Auth::user()->id);
         $message = session()->get('message');
-        $users = User::get();
-        return view('profile',compact('message','like','users'));
+        return view('profile',compact('message','like'));
     }
     public function change(ChangeRequest $request)
     {
@@ -32,7 +31,6 @@ class ProfileController extends Controller
             "image" => $image,
             "name" => $request->get('name'),
             "surname" => $request->get('surname'),
-            "patronymic" => $request->get('patronymic'),
             "email" => $request->get('email'),
             "country" => $request->get("country"),
             "town" => $request->get("town"),

@@ -1,18 +1,16 @@
 @extends('index')
 
 @section('content')
-    @if($message)
-    <div class="alert alert-success" role="alert">
-     {{ $message  }}
-    </div>
-    @endif
-    <button type="button" class="btn btn-primary ml-3" data-bs-toggle="modal" data-bs-target="#sendModel" data-bs-whatever="@mdo">Отправить</button>
-
     <body class="text-center" >
-    <header class="  py-3 border-bottom"style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')" >
+{{--    @if($message)--}}
+{{--        <div class="alert alert-success" role="alert">--}}
+{{--            {{ $message  }}--}}
+{{--        </div>--}}
+{{--    @endif--}}
+    <header class="  py-3 border-bottom" style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')" >
         <div class="container-fluid d-grid gap-3 align-items-center" style=" grid-template-columns: 1fr 2fr;">
             <div class="dropdown">
-                <a type="button" class="btn btn-outline-light" href="{{route('homepage')}}" >На форму регистрации</a>
+
 
             </div>
             <div class="d-flex">
@@ -40,37 +38,35 @@
             </div>
         </div>
     </header>
-    <div class="container-fluid pb-3" style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')">
-        <div class="d-grid gap-3" style="grid-template-columns: 1fr 2fr;" >
-            <div class="bg-light" style="height: 807px; margin-top: 10px;border-radius: 20px;">
-                <img src="https://yt3.ggpht.com/a/AGF-l78t8lDIFTi-iEMpBV70obgLwgkceqDOTQKO-A=s900-c-k-c0xffffffff-no-rj-mo" style="width:250px; height: 250px;border-radius: 20px 40px; margin-left:auto; margin-right: auto; margin-top: 20px;">
-                <br>
-                <p style="color:black;margin-top:20px;font-size: 20px;margin-left: 20px; margin-right: 20px;">На нашем сайте знакомств вы можете общаться и знакомиться с интересными людьми со всего мира.
-                    Все фотографии и тексты проходят ручную модерацию. Видео анкеты и голосовые приветствия позволят вам проявить себя и лучше узнать других. Будьте уверены - мы делаем все, чтобы у нас вы общались с настоящими людьми для реальных знакомств.
-                    Что бы вы ни искали - общение, флирт, любовь - вы пришли на правильный сайт. Удачи!</p>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <a href="https://www.savushkin.by/"><img src="storage\uploads\Снимок.PNG" style="margin-top:20px;margin-left:20px;margin-right:20px;width:200px; height: 120px; border-radius: 20px 40px;"></a>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="https://www.sberbank.ru/ru/person"><img src="storage\uploads\spr.jpg" style="margin-top:20px; margin-left:76px;width:200px; height: 120px; border-radius: 20px 40px;"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')">
+{{--        <div class="d-grid gap-3" style="grid-template-columns: 1fr 2fr;" >--}}
+{{--            <div class="bg-light" style="height: 807px; margin-top: 10px;border-radius: 20px;">--}}
+{{--                <img src="https://yt3.ggpht.com/a/AGF-l78t8lDIFTi-iEMpBV70obgLwgkceqDOTQKO-A=s900-c-k-c0xffffffff-no-rj-mo" style="width:250px; height: 250px;border-radius: 20px 40px; margin-left:auto; margin-right: auto; margin-top: 20px;">--}}
+{{--                <br>--}}
+{{--                <p style="color:black;margin-top:20px;font-size: 20px;margin-left: 20px; margin-right: 20px;">На нашем сайте знакомств вы можете общаться и знакомиться с интересными людьми со всего мира.--}}
+{{--                    Все фотографии и тексты проходят ручную модерацию. Видео анкеты и голосовые приветствия позволят вам проявить себя и лучше узнать других. Будьте уверены - мы делаем все, чтобы у нас вы общались с настоящими людьми для реальных знакомств.--}}
+{{--                    Что бы вы ни искали - общение, флирт, любовь - вы пришли на правильный сайт. Удачи!</p>--}}
+{{--                <div class="container">--}}
+{{--                    <div class="row">--}}
+{{--                        <div class="col-md-4">--}}
+{{--                            <a href="https://www.savushkin.by/"><img src="storage\uploads\Снимок.PNG" style="margin-top:20px;margin-left:20px;margin-right:20px;width:200px; height: 120px; border-radius: 20px 40px;"></a>--}}
+{{--                        </div>--}}
+{{--                        <div class="col-md-4">--}}
+{{--                            <a href="https://www.sberbank.ru/ru/person"><img src="storage\uploads\spr.jpg" style="margin-top:20px; margin-left:76px;width:200px; height: 120px; border-radius: 20px 40px;"></a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <div style="margin-top: 10px;">
-                <div class="row">
+                <div class="row" >
                     @foreach($users as $user)
-                        <div class="col-md-4" >
+                        <div class="col-md-3" style="margin-top: 10px;" >
                         <div class="card mb-4 box-shadow" style="border-radius: 20px;">
                             <div class="card-body" >
-                                <img src="storage/{{$user->image}}" alt="mdo" width="200" height="200" class="rounded-circle">
+                                <img src="storage/{{$user->image}}" alt="mdo" width="200" height="200" style="border-radius: 20px 40px;">
                                 <p class="card-text">{{$user->name}} {{$user->surname}}</p>
                                 <p class="card-text">{{$user->country}}, {{$user->town}}</p>
                                 <p class="card-text">{{$user->sex}}</p>
-
-
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         @if($user->liked()->find(Auth::user()->id))
@@ -116,14 +112,13 @@
                                     <div class="modal-body" >
                                         <img class="card-img-top image" src="storage/" style="height: 50%; width: 50%; display: block; float: right; padding-left: 10px; padding-bottom: 10px;" >
                                         <div class="raw">
-                                         <input type="text" value="" class="surname" style="outline: none;border: none; ">
-                                         <input type="text" value="" class="name" style="outline: none;border: none; ">
-                                         <input type="text" value="" class="patronymic" style="outline: none;border: none; ">
-                                            <input type="text" value="" class="sex" style="outline: none;width:175px;border: none;">
-                                            <input type="text" value="" class="date_of_birth" style="outline: none;border: none; ">
-                                        <input type="text" value="" class="country" style="outline: none;border: none; ">
-                                        <input type="text" value="" class="town" style="outline: none;border: none; ">
-                                            <input type="text" value="" class="description" style="outline: none;border: none; ">
+                                         <input type="text"  value="" class="form-control surname" style="float:left;width:50%;margin-top: 2px;">
+                                         <input type="text"  value="" class="form-control name" style="float:left;width:50%;margin-top: 2px;">
+                                            <input type="text"  value="" class="form-control sex" style="float:left;width:50%;margin-top: 2px;">
+                                            <input type="text"  value="" class="form-control date_of_birth" style="float:left;width:50%;margin-top: 2px;">
+                                        <input type="text" value="" class="form-control country" style="float:left;width:50%;margin-top: 2px;">
+                                        <input type="text"  value="" class="form-control town" style= "float:left;width:50%;margin-top: 2px;"><br>
+                                            <textarea class="form-control description" style="float:left;width:50%;margin-top: 20px;"></textarea>
                                          </div>
                                     </div>
                                     <div class="modal-footer">
@@ -154,27 +149,27 @@
                 </div>
                 <div class="modal-body">
                     <form action="{{route('index')}}">
-                        <select name="filter">
+                        <select name="filter" class="form-control">
                             <option value='asc'
                                     @if($selPar == "asc")
                                     selected=""
                                 @endif >
-                                По возрастанию
+                                Возраст по возрастанию
                             </option>
                             <option value='desc'
                                     @if($selPar == "desc")
                                     selected=""
                                 @endif >
-                                По убыванию
+                                Возраст по убыванию
                             </option>
                         </select>
                         <br>
-                        <input name='min_age' value="{{ $getAgeMinPar }}" style="width: 180px; margin-top:10px;" placeholder="Минимальный возраст">
-                        <input name='max_age' value="{{ $getAgeMaxPar }}" style="width: 180px; margin-top:10px;margin-left: 10px"placeholder="Максимальный возраст">
+                        <input name='min_age' class="form-control" value="{{ $getAgeMinPar }}" style=" margin-top:10px;" placeholder="Минимальный возраст">
+                        <input name='max_age' class="form-control" value="{{ $getAgeMaxPar }}" style=" margin-top:10px;" placeholder="Максимальный возраст">
                         <br>
-                        <input name="town" value="{{$getTown}}" style="width: 180px; margin-top:10px;" placeholder="Введите город">
-                        <input name="country" value="{{$getCountry}}"  style="width: 180px; margin-top:10px; margin-left:10px;" placeholder="Введите страну"><br>
-                        <input name='sex' value="{{ $getSex }}" placeholder="Введите пол" style="margin-top:10px;"><br>
+                        <input name="town" class="form-control" value="{{$getTown}}" style=" margin-top:10px;" placeholder="Введите город">
+                        <input name="country" class="form-control" value="{{$getCountry}}"  style=" margin-top:10px; " placeholder="Введите страну"><br>
+                        <input name='sex' class="form-control" value="{{ $getSex }}" placeholder="Введите пол" style="margin-top:10px;"><br>
 
                         <div class="modal-footer" style="margin-top:10px;">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -200,12 +195,11 @@
                         document.querySelector('.image').src = "/storage/" + data.image;
                         document.querySelector('.name').value = data.name;
                         document.querySelector('.surname').value = data.surname;
-                        document.querySelector('.patronymic').value = data.patronymic;
                         document.querySelector('.sex').value = data.sex;
                         document.querySelector('.date_of_birth').value = data.date_of_birth;
                         document.querySelector('.country').value = data.country;
                         document.querySelector('.town').value = data.town;
-                        document.querySelector('.description').value = data.description;
+                        document.querySelector('.description').textContent = data.description;
                     }
                 });
             });
@@ -252,50 +246,5 @@
         });
 
     </script>
-    <div class="modal fade" id="sendModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Отправка</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="send" class='ml-3'>
-                        <input type="hidden" name="_token" value="{{csrf_token()}}">
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>
-                                    <input name='sendName' placeholder="Ваше имя" />
-                                </th>
-                                <th>
-                                    <input name='sendEmail' placeholder="Почта" />
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <th>
-                                    <input name='sendTitle' type='text' placeholder="Тема сообщения" />
-                                </th>
-                                <th>
-                                    <textarea name='sendText' type='text' placeholder="Текст"></textarea>
-                                </th>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <td colspan='2'></td>
-                        <div class="modal-footer">
-                            <tr>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                                <button type='submit' class="btn btn-primary">отправить</button>
-                            </tr>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
 @endsection

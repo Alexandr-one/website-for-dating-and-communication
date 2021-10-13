@@ -26,7 +26,6 @@ class AuthRequest extends FormRequest
         return [
             'name' => 'required',
             'surname' => 'required',
-            'patronymic' => 'required',
             'password' => ['required',
                 'min:6',
                 //'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x])(?=.*[!$#%]).*$/',
@@ -41,7 +40,6 @@ class AuthRequest extends FormRequest
         return [
             'name.required' => trans('validation.user.name.required'),
             'surname.required' => trans('validation.user.surname.required'),
-            'patronymic.required' => trans('validation.user.patronymic.required'),
             'email.required' => trans('validation.user.email.required'),
             'email.unique' => trans('validation.user.email.unique'),
             'email.email' => trans('validation.user.email.email'),

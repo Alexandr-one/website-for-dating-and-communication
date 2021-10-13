@@ -2,22 +2,6 @@
 
 @section('content')
 
-    @if($message)
-        <div class="alert alert-success" role="alert">
-            {{ $message  }}
-        </div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <style>
         hr {
             border: none;
@@ -28,6 +12,21 @@
         }
     </style>
     <div  style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')">
+{{--        @if($message)--}}
+{{--            <div class="alert alert-success" role="alert">--}}
+{{--                {{ $message  }}--}}
+{{--            </div>--}}
+{{--        @endif--}}
+
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <div>
             <div>
                 <div>
@@ -78,16 +77,22 @@
                 <div class="modal-body" >
                     <form method="POST" action="{{route('change')}}" enctype="multipart/form-data">
                     @csrf
-                        <div style="margin-top:30px;">
-                            <input type="name" name="name" style="margin-top:10px;" value="{{Auth::user()->name}}"> <br>
-                            <input name="surname" style="margin-top:10px;" placeholder="Фамилия" value="{{Auth::user()->surname}}"> <br>
-                            <input name="patronymic" style="margin-top:10px;" placeholder="Отчество" value="{{Auth::user()->patronymic}}"> <br>
-                            <input type="email" name="email" style="margin-top:10px;" placeholder="Email" value="{{Auth::user()->email}}"> <br>
-                            <input type="text" name="country" style="margin-top:10px;" placeholder="Страна" value="{{Auth::user()->country}}"> <br>
-                            <input name="town" style="margin-top:10px;" placeholder="Город" value="{{Auth::user()->town}}"> <br>
-                            <textarea name="description" style="margin-top:10px;"></textarea>
+                        <div style="">
+                            <span>Имя</span>
+                            <input type="name" name="name" class="form-control" style="margin-top:10px;" value="{{Auth::user()->name}}"> <br>
+                            <span>Фамилия</span>
+                            <input class="form-control" name="surname" style="margin-top:10px;" placeholder="Фамилия" value="{{Auth::user()->surname}}"> <br>
+                            <span>Email</span>
+                            <input class="form-control" type="email" name="email" style="margin-top:10px;" placeholder="Email" value="{{Auth::user()->email}}"> <br>
+                            <span>Страна</span>
+                            <input class="form-control" type="text" name="country" style="margin-top:10px;" placeholder="Страна" value="{{Auth::user()->country}}"> <br>
+                            <span>Город</span>
+                            <input name="town" class="form-control" style="margin-top:10px;" placeholder="Город" value="{{Auth::user()->town}}"> <br>
+                            <span>Описание</span>
+                            <textarea name="description" style="margin-top:10px;" class="form-control">{{Auth::user()->description}}</textarea>
                         </div>
-                        <input name="image" type="file" style="margin-top:10px;">
+                        <span>Аватар</span>
+                        <input name="image" type="file" class="form-control" style="margin-top:10px;">
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                     <button type="submit" class="btn btn-outline-success">Сохранить</button>
