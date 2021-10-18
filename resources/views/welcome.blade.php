@@ -2,7 +2,6 @@
 
 @section('content')
 <style>body {
-        background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg');
         background-size: cover;
     }</style>
     @if($loginError)
@@ -22,12 +21,13 @@
             </ul>
         </div>
     @endif
-<body>
+<body background="storage/uploads/Background.png">
 
-<div class="space" style="background-color: #f7fafc;   padding: 20px;border-radius:15px;border: 4px;border-color: #f00;margin-top: 2px; margin-left: 200px;margin-right: 200px;">
+<div class="space" style="background-color: white;   padding: 20px;border-radius:40px;border: 4px;border-color: #f00;margin-top: 2px; margin-left: 200px;margin-right: 200px;">
     <div style="margin-left: 100px;margin-right: 100px;">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <h4 class="mb-3" style="margin-left: 370px;">Регистрация</h4>
+        <h4 class="mb-3" style="margin-left: 240px;color: #990066">Регистрация на сайте знакомств <span style="font-style: oblique">Dating</span>                <img style="border-radius: 40px; width: 30px; height: 30px;"   src="https://yt3.ggpht.com/a/AATXAJxSrEdYyrQsVZ4xIBhS_P4xoVxAW8sTqsePmsV4=s900-c-k-c0x00ffffff-no-rj">
+        </h4>
 {{--            @if(Auth::user())--}}
 {{--            <a type="button" href="{{route("index")}}" class="btn btn-outline-light" style="margin-left: 180px;background-color: #990066">{{Auth::user()->name}}</a>--}}
 {{--            <form method="POST" action="{{ route('logout') }}">--}}

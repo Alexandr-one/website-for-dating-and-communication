@@ -1,18 +1,15 @@
 @extends('index')
 
 @section('content')
-    <body class="text-center" >
+    <body class="text-center" style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')">
 {{--    @if($message)--}}
 {{--        <div class="alert alert-success" role="alert">--}}
 {{--            {{ $message  }}--}}
 {{--        </div>--}}
 {{--    @endif--}}
-    <header class="  py-3 border-bottom" style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')" >
+    <header class="py-3 border-bottom" style="background-color: #990066" >
         <div class="container-fluid d-grid gap-3 align-items-center" style=" grid-template-columns: 1fr 2fr;">
-            <div class="dropdown">
-
-
-            </div>
+            <p style="float: left; color: white;font-size: 20px;">Сайт знакомств Dating <img style="width: 40px; height: 40px;border-radius: 10px;" src="https://yt3.ggpht.com/a/AATXAJxSrEdYyrQsVZ4xIBhS_P4xoVxAW8sTqsePmsV4=s900-c-k-c0x00ffffff-no-rj"></p>
             <div class="d-flex">
                 <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#filterModal">
                     Фильтр
@@ -38,33 +35,20 @@
             </div>
         </div>
     </header>
-    <div style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')">
-{{--        <div class="d-grid gap-3" style="grid-template-columns: 1fr 2fr;" >--}}
-{{--            <div class="bg-light" style="height: 807px; margin-top: 10px;border-radius: 20px;">--}}
-{{--                <img src="https://yt3.ggpht.com/a/AGF-l78t8lDIFTi-iEMpBV70obgLwgkceqDOTQKO-A=s900-c-k-c0xffffffff-no-rj-mo" style="width:250px; height: 250px;border-radius: 20px 40px; margin-left:auto; margin-right: auto; margin-top: 20px;">--}}
-{{--                <br>--}}
-{{--                <p style="color:black;margin-top:20px;font-size: 20px;margin-left: 20px; margin-right: 20px;">На нашем сайте знакомств вы можете общаться и знакомиться с интересными людьми со всего мира.--}}
-{{--                    Все фотографии и тексты проходят ручную модерацию. Видео анкеты и голосовые приветствия позволят вам проявить себя и лучше узнать других. Будьте уверены - мы делаем все, чтобы у нас вы общались с настоящими людьми для реальных знакомств.--}}
-{{--                    Что бы вы ни искали - общение, флирт, любовь - вы пришли на правильный сайт. Удачи!</p>--}}
-{{--                <div class="container">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-4">--}}
-{{--                            <a href="https://www.savushkin.by/"><img src="storage\uploads\Снимок.PNG" style="margin-top:20px;margin-left:20px;margin-right:20px;width:200px; height: 120px; border-radius: 20px 40px;"></a>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-4">--}}
-{{--                            <a href="https://www.sberbank.ru/ru/person"><img src="storage\uploads\spr.jpg" style="margin-top:20px; margin-left:76px;width:200px; height: 120px; border-radius: 20px 40px;"></a>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+    <div >
             <div style="margin-top: 10px;">
-                <div class="row" >
+                <div class="row" style="margin-left:50px;margin-right:50px;">
                     @foreach($users as $user)
-                        <div class="col-md-3" style="margin-top: 10px;" >
-                        <div class="card mb-4 box-shadow" style="border-radius: 20px;">
+
+                        <div class="col-md-3" style="margin-top: 30px;" >
+                        <div class="card mb-4 box-shadow" style="border-radius: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.5);">
                             <div class="card-body" >
-                                <img src="storage/{{$user->image}}" alt="mdo" width="200" height="200" style="border-radius: 20px 40px;">
-                                <p class="card-text">{{$user->name}} {{$user->surname}}</p>
+                                <button type="button" data-toggle="modal" style="border-radius: 10px;background: transparent;
+    border: none !important;" data-target="#imageModel" class="imageInfo" data-id="{{$user->id}}">
+                                    <img src="storage/{{$user->image}}" alt="mdo" width="260" height="240" style="border-radius: 20px;box-shadow: 0 0 10px rgba(0,0,0,0.5);">
+                                </button>
+                                <br>
+                                <p class="card-text" style="margin-top: 25px;">{{$user->name}} {{$user->surname}}</p>
                                 <p class="card-text">{{$user->country}}, {{$user->town}}</p>
                                 <p class="card-text">{{$user->sex}}</p>
                                 <div class="d-flex justify-content-between align-items-center">
@@ -122,7 +106,6 @@
                                          </div>
                                     </div>
                                     <div class="modal-footer">
-
                                         <button type="button" class="btn btn-success createChat" data-id="{{Auth::user()->id}}">Написать</button>
                                             <input type="hidden" value="" class="user_id" name="user_id" style="outline: none;border: none; ">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -180,6 +163,13 @@
             </div>
         </div>
     </div>
+<div class="modal fade" id="imageModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:0%;height: 0%;">
+        </div>
+    </div>
+    <img class="img" style="object-fit: contain;width:680px;height: 680px;">
+</div>
     </body>
     <script>
         $(document).ready(function(){
@@ -216,6 +206,19 @@
                     }
                 });
             });
+            $('.imageInfo').click(function () {
+                let id = $(this).data('id');
+                console.log(id)
+                $.ajax({
+                    url: 'http://localhost:8000/api/get_image/' + id,
+                    type: "GET",
+                    success: function (data) {
+                        console.log(data.content);
+                        document.querySelector('.img').src = "/storage/" + data.image;
+                    }
+                });
+            });
+
             $('.createChat').click(function (){
                 let id = $(this).data('id');//4
                 let user_id = document.querySelector('.user_id').value;//3

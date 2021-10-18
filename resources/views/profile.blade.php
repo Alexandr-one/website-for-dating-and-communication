@@ -34,9 +34,14 @@
                         <img src="storage/{{Auth::user()->image}}" alt="mdo" width="300" height="300" class="rounded-circle">
                         <h3 class="media-heading text-light">{{Auth::user()->name}} {{Auth::user()->surname}}<small><br> {{Auth::user()->country}}, {{Auth::user()->town}}</small></h3>
                         <a type="button" class="btn btn-outline-light" href="{{route('index')}}">На главную страницу</a><br><br>
-                        @foreach(Auth::user()->chat as $userChat)
-                            <a type="button" href="/index/chat/{{$userChat->id}}" style=" margin-left: 5px;" class="btn btn-sm btn-outline-light chating" >Перейти к чату c {{\App\Models\User::find($userChat->id)->name}}</a>
-                        @endforeach
+                        @if(Auth::user()->chat()->count() != 0)
+                            <button type="button" class="btn btn-outline-light" data-toggle="modal" data-target="#chatModel">
+                                Перейти к чатам
+                            </button>
+                        @endif
+                        @if(Auth::user()->status == 'ADMIN')
+                            <a type="button" class="btn btn-outline-light" href="{{route('admin')}}">Админ панель</a>
+                        @endif
                         <hr>
                         <center>
                             <p class="text-center text-light "><strong>Информация: </strong><br>
@@ -64,7 +69,26 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="chatModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Чаты пользователя</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @foreach(Auth::user()->chat as $userChat)
+                        <a type="button" href="/index/chat/{{$userChat->id}}" style=" margin-left: 5px;background-color: #990066; border:none;" class="btn btn-sm btn-primary chating" >Перейти к чату c {{\App\Models\User::find($userChat->id)->name}} {{\App\Models\User::find($userChat->id)->surname}}</a><br><br>
+                    @endforeach
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

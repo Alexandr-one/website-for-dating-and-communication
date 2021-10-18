@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\SmileModel;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Events\NewMessageAdded;
@@ -14,11 +15,12 @@ class ChatModelController extends Controller
 {
     public function index($id)
     {
+        $smiles = SmileModel::get();
         $user = User::find($id);
         $chat = $user->chat()->find(Auth::user());
         $userChats = Message::where('chat_id','=',$chat->pivot->chat_id)->get();
 
-        return view('chat',compact('user','userChats'));
+        return view('chat',compact('user','userChats','smiles'));
     }
 
     public function changeMess(Request $request)
@@ -69,6 +71,18 @@ class ChatModelController extends Controller
             'chat_id' => $request->get('chat_id'),
             'author_id' => $request->get('user_id'),
             'content' => $request->get('text'),
+        ]);
+
+        return $message;
+    }
+
+    public function postSmileMessage(Request $request, $id)
+    {
+        $smile = SmileModel::find($id);
+        $message = Message::create([
+           'chat_id' => $request->get('chat_id'),
+           'author_id' => $request->get('user_id'),
+           'content' => $smile->content,
         ]);
 
         return $message;

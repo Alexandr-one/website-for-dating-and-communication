@@ -22,7 +22,11 @@ Route::get('/like/{user_id}/{id}', [\App\Http\Controllers\Api\User\UserControlle
 Route::get('/delike/{user_id}/{id}', [\App\Http\Controllers\Api\User\UserController::class, 'delike'])->name('users.delike');
 Route::get('/users/{id}', [\App\Http\Controllers\Api\User\UserController::class, 'show'])->name('users.show');
 Route::get('/image/{id}', [\App\Http\Controllers\ChatModelController::class, 'image'])->name('users.image');
+Route::get('/get_image/{id}', [\App\Http\Controllers\AuthMainController::class, 'image']);
 Route::get('/message/{id}', [\App\Http\Controllers\ChatModelController::class, 'message'])->name('users.image');
 Route::post('/index/create/chat',[\App\Http\Controllers\ChatModelController::class,'createChat'])->name('create.chat');
 Route::post('/messages',[\App\Http\Controllers\ChatModelController::class, 'postMessage']);
+Route::post('/smile/messages/{id}',[\App\Http\Controllers\ChatModelController::class, 'postSmileMessage']);
 Route::post('/delete_mess/{id}',[\App\Http\Controllers\ChatModelController::class, 'deleteMessage']);
+Route::get('/get_smile/{id}',[\App\Http\Controllers\AdminController::class, 'getSmile']);
+Route::post('/delete_smile/{id}',[\App\Http\Controllers\AdminController::class, 'deleteSmileApi']);

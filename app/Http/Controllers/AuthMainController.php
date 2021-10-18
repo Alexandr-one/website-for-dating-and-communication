@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\UserStatusEnum;
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\LoginRequest;
 use App\Models\LikeUser;
@@ -13,12 +14,38 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Psy\Util\Str;
+use SebastianBergmann\CodeCoverage\Report\Text;
 
 class AuthMainController extends Controller
 {
+
+    public function verification()
+    {
+        $errors = session()->get('verificError');
+        return view('verify',compact('errors'));
+    }
+
     public function main()
     {
-        return view('first');
+        $users = User::get();
+        return view('first',compact('users'));
+    }
+
+    public function sendMessToEmail()
+    {
+        $user = Auth::user();
+        $user->verification_token = \Illuminate\Support\Str::random(6);
+        $user->save();
+        $title = 'Подтверждение аккаунта';
+        $name = 'Сайт знакомств Dating';
+        $email = $user->email;
+        Mail::raw($user->verification_token,function($message) use ($email,$name,$title){
+            $message->to($email , 'To web dev blog')->subject($title);
+            $message->from('2004sasharyzhakov@gmail.com',$name);
+        });
+
+        return redirect()->back();
     }
     public function registration()
     {
@@ -84,7 +111,7 @@ class AuthMainController extends Controller
             $getAgeMaxPar = $request->get('max_age');
         }
 
-        $users = $users->paginate(8)
+        $users = $users->paginate(12)
                         ->withPath('?' . $request->getQueryString());
         $message = session()->get('message');
 
@@ -108,7 +135,7 @@ class AuthMainController extends Controller
         else if (Auth::attempt($request->only('email','password'))){
             $user = Auth::user();
             session()->flash('message','Вы успешно вошли');
-
+//            $this->sendMessToEmail();
             return redirect()->route('index');
         }
     }
@@ -121,6 +148,7 @@ class AuthMainController extends Controller
         if($request->file('image')){
             $image = $request->file('image')->store('uploads','public');
         }
+        $token = \Illuminate\Support\Str::random(6);
         $sex = $request->get('female');
         $user = User::create([
             'name' => $request->get('name'),
@@ -133,9 +161,8 @@ class AuthMainController extends Controller
             'town' => $request->get('town'),
             'date_of_birth' => $request->get('date_of_birth'),
             'sex' => $request->filled("male") ? "Мужской" : ($sex ? "Женский" : "Специфичный"),
+            'verification_token' => $token,
         ]);
-        Auth::login($user);
-        $user = Auth::user();
         $date = Carbon::parse($user->date_of_birth);
         $znaks= ZodiacModel::get();
         $znaksIds = array();
@@ -147,11 +174,29 @@ class AuthMainController extends Controller
                 $user->zodiac()->attach($zodiac->id);
             }
         }
+        $email = $request->get('email');
+        $title = 'Подтверждение аккаунта';
+        $name = 'Сайт знакомств Dating';
+        Auth::login($user);
+        $this->sendMessToEmail();
         session()->flash('message',"Вы зарегистрировались, введите дополнительные данные");
 
-        return redirect()->route('profile');
+        return redirect()->route('verify');
     }
 
+    public function sendToken(Request $request)
+    {
+        if(Auth::user()->verification_token == $request->get('token'))
+        {
+            Auth::user()->status = UserStatusEnum::ACTIVE;
+            Auth::user()->save();
+        }else{
+            session()->flash('verificError','Неправильный код');
+            return redirect()->back();
+        }
+
+        return redirect(route('index'));
+    }
     public function logout(Request $request)
     {
         Auth::guard('web')->logout();
@@ -161,6 +206,11 @@ class AuthMainController extends Controller
         return redirect(route('first'));
     }
 
+    public function image($id)
+    {
+        $userImg = User::find($id);
+        return $userImg;
+    }
     public function send(Request $request)
     {
         $this->validate($request,[
