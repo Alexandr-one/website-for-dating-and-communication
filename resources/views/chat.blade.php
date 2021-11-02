@@ -3,6 +3,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
 @section('content')
     <body style="background: url('https://mobimg.b-cdn.net/v3/fetch/8a/8a1566620007c54402b4b883e0878236.jpeg')">
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @foreach ($errors->all() as $smileError)
+                {{ $smileError }}
+            @endforeach
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+    @endif
     <div class="space" style="padding: 20px;border-radius:15px;border: 4px;border-color: #f00;background: #990066;margin-top: 50px; margin-left: 350px;margin-right: 350px;">
     <a type="button" href="{{route('index')}}" class="btn btn-light" style="float:left;" > Вернуться на главную страницу</a>
         <h3 style="color: #f7fafc">         <img src="http://localhost:8000/storage/{{$user->image}}" alt="mdo" width="50" height="50" style="border-radius: 10px;">
@@ -16,7 +26,7 @@
             @if($userChats)
                 @foreach($userChats as $userChat)
                     @if(Auth::user()->id == $userChat->author_id)
-                        @if(substr($userChat->content,-4) == '.jpg')
+                        @if(substr($userChat->content,-4) == '.jpg' || substr($userChat->content,-4) == '.png' )
                             <br>
                             <button type="button" data-toggle="modal" style="border-radius: 10px;float: left;background: transparent;
     border: none !important;" data-target="#imageModel" class="info" data-id="{{$userChat->id}}">
@@ -29,6 +39,7 @@
                             <br>
                         @elseif(substr($userChat->content,-5) == '.docx' || substr($userChat->content,-5) == '.text')
                             <br>
+
                             <a type="button" class="btn btn-primary" href="http://localhost:8000/storage/{{$userChat->content}}" download="{{$userChat->content}}" style="float:left;">Файл {{substr($userChat->content,-5)}}</a>
                             <br>
                             <br>
@@ -51,21 +62,36 @@
                             <br>
                         @elseif(substr($userChat->content,-5) == '.docx')
                             <br>
-                            <a type="button" class="btn btn-primary" href="http://localhost:8000/storage/{{$userChat->content}}" download="{{$userChat->content}}" style="float: right">Файл {{substr($userChat->content,-5)}}</a>
+                            <a type="button" class="btn btn-warning" href="http://localhost:8000/storage/{{$userChat->content}}" download="{{$userChat->content}}" style="float: right">Файл {{substr($userChat->content,-5)}}</a>
                             <br>
                             <br>
                         @else
-                        <button class="badge badge-pill badge-light"  style="color:#1a202c ;float:right;margin-right: 40px;font-size:24px;border:none;">{{$userChat->content}}</button><br>
-                        <br>
+                            @if($userChat->status == \App\Classes\MessageStatusEnum::NEW)
+                                <button class="badge badge-pill btn btn-warning"  style="color:#1a202c ;float:right;margin-right: 40px;font-size:24px;border:none;">{{$userChat->content}}</button><br>
+                                <br>
+                            @elseif($userChat->status == \App\Classes\MessageStatusEnum::READ)
+                                <button class="badge badge-pill badge-light"  style="color:#1a202c ;float:right;margin-right: 40px;font-size:24px;border:none;">{{$userChat->content}}</button><br>
+                                <br>
+                            @endif
                         @endif
                     @endif
                 @endforeach
+                @if($checkChat == "YES")
+                    <form method="POST" action="http://localhost:8000/read/chat/{{$user->id}}">
+                        @csrf
+                        <button type="submit" class="btn btn-warning">Прочитал</button>
+                    </form>
+                @endif
             @endif
 
             <br>
                 <span class="badge badge-pill badge-light mess" style="color:#1a202c ;float:left;width:100px"></span><br>
         </ul>
     <hr>
+
+
+        @if($user->chat()->find(Auth::user())->pivot->status == \App\Classes\ChatUserStatusEnum::ACTIVE)
+
     <form class="form">
         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#smileModal" style="float: left; height:37px;">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-emoji-smile" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -84,13 +110,36 @@
         <br><br>
         <p style="float: left; color: white">Количество сообщений: {{$userChats->count()}}</p>
     </form>
-
+            <br>
+            @if(Auth::user()->chat()->find($user)->pivot->status == \App\Classes\ChatUserStatusEnum::ACTIVE)
+            <form method="POST" action="{{route('blockUser')}}" style="float: left">
+                @csrf
+                <input type="hidden"  style="outline: none;border: none; color: transparent" name="user_id" value="{{Auth::user()->id}}">
+                <input type="hidden" style="outline: none;border: none; color: transparent" name="sec_user_id" value="{{$user->id}}">
+                <button type="submit" class="btn btn-outline-light">Заблокировать</button>
+            </form>
+                @else
+                    <form method="POST" action="{{route('unBlockUser')}}" style="float: left">
+                        <p style="color: white; font-size: 15px;">Вы заблокировали пользователя
+                        @csrf
+                        <input type="hidden"  style="outline: none;border: none; color: transparent" name="user_id" value="{{Auth::user()->id}}">
+                        <input type="hidden" style="outline: none;border: none; color: transparent" name="sec_user_id" value="{{$user->id}}">
+                        <button type="submit" class="btn btn-outline-light">Разблокировать</button>
+                        </p>
+                    </form>
+                @endif
+@elseif($user->chat()->find(Auth::user())->pivot->status == \App\Classes\ChatUserStatusEnum::BLOCK)
+                <h1>Вы заблокированы</h1>
+    @endif
+        <form method="POST" action="{{route('deleteChat')}}">
+            @csrf
+            <input type="hidden"  style="outline: none;border: none; color: transparent" name="user_id" value="{{Auth::user()->id}}">
+            <input type="hidden" style="outline: none;border: none; color: transparent" name="sec_user_id" value="{{$user->id}}">
+            <button type="submit" class="btn btn-outline-light">Удалить чат</button>
+        </form>
+    <br>
     </div>
     @endif
-
-
-
-
 
     {{-- Отправка файла --}}
     <form action="{{route('chat.post')}}" method="POST" enctype="multipart/form-data">
@@ -107,7 +156,7 @@
                 <div class="modal-body">
                         <input value="{{$user->chat()->find(Auth::user()->id)->pivot->chat_id}}" name="chat_id" style="outline: none;border: none; color: transparent">
                         <input value="{{Auth::user()->id}}" name="user_id" style="outline: none;border: none;color: transparent ">
-                        <input type="file" name="image">
+                        <input type="file" name="content">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -125,9 +174,9 @@
                     </div>
                 </div>
             </div>
-        <input  type="hidden" id="messageId" value="" class="messageId" name="id" style="outline: none;border: none; ">
+        <input  type="hidden" id="imageId" value="" class="imageId" name="id" style="outline: none;border: none; ">
         <img class="image" style="object-fit: contain;width:680px;height: 680px;"><br>
-        <button type="button" class="btn btn-danger deleteMess">Удалить</button>
+        <button type="button" class="btn btn-danger deleteImageMess">Удалить</button>
         </div>
 
     {{-- Изменение сообщений--}}
@@ -140,11 +189,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form class="changeMess" method="POST" action="{{route('changeMess')}}">
+                <form  method="POST" action="{{route('changeMess')}}">
                     @csrf
                 <div class="modal-body">
-                    <input  type="hidden" id="messageId" value="" class="messageId" name="id" style="outline: none;border: none; ">
-                    <input value="" class="form-control message" name="message">
+                    <input type="hidden" id="messageId" value="" class="messageId" name="id" style="outline: none;border: none; ">
+                    <input value="" class="form-control message" name="content">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
@@ -181,13 +230,13 @@
     </div>
 {{----------------------------------------------------------------------------------------------}}
     <script>
-        let socket = new io.connect(':6001');
+        // let socket = new io.connect(':6001');
 
-        function appendMessage(data){
-            $('.chat').append(
-                $('.mess').text(data.message)
-            );
-        }
+        // function appendMessage(data){
+        //     $('.chat').append(
+        //         $('.mess').text(data.message)
+        //     );
+        // }
 
         $('.form').on('submit',function (){
             let id = document.querySelector('.chat_id').value;
@@ -196,9 +245,9 @@
             console.log(user_id);
             let text = $('textarea').val(),
                 msg = {message : text};
-            socket.send(msg);
+             // socket.send(msg);
             console.log(msg);
-           //appendMessage(msg);
+           // appendMessage(msg);
             $.ajax({
                 url: 'http://localhost:8000/api/messages/',
                 type: "POST",
@@ -207,13 +256,13 @@
                     location.reload();
                 }
             });
-            $('textarea').val('');
+             $('textarea').val('');
             return false;
         });
-        socket.on('message',function (data){
-            appendMessage(data);
-            console.log("client",data);
-        });
+        // socket.on('message',function (data){
+        //     appendMessage(data);
+        //     console.log("client",data);
+        // });
         $(document).ready(function() {
             $('.info').click(function () {
                 let id = $(this).data('id');
@@ -224,7 +273,7 @@
                     success: function (data) {
                         console.log(data.content);
                         console.log(data.id);
-                        document.querySelector('.messageId').value = data.id;
+                        document.querySelector('.imageId').value = data.id;
                         document.querySelector('.image').src = "/storage/" + data.content;
                     }
                 });
@@ -236,7 +285,7 @@
                     url: 'http://localhost:8000/api/image/' + id,
                     type: "GET",
                     success: function (data) {
-                        console.log(data.content);
+                        console.log(data.id);
                         document.querySelector('.messageId').value = data.id;
                         document.querySelector('.message').value = data.content;
                     }
@@ -258,8 +307,8 @@
                    }
                });
             });
-            $('.deleteMess').click(function (){
-               let id = document.getElementById('messageId').value
+            $('.deleteImageMess').click(function (){
+               let id = document.getElementById('imageId').value
                 console.log(id);
                $.ajax({
                    url: 'http://localhost:8000/api/delete_mess/' + id,
@@ -268,6 +317,17 @@
                        location.reload();
                    }
                });
+             });
+            $('.deleteMess').click(function (){
+                let id = document.getElementById('messageId').value
+                console.log(id);
+                $.ajax({
+                    url: 'http://localhost:8000/api/delete_mess/' + id,
+                    type: "POST",
+                    success: function (data) {
+                        location.reload();
+                    }
+                });
             });
         });
 

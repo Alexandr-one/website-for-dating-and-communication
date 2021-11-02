@@ -1,7 +1,30 @@
 @extends('index')
 
 @section('content')
+
     <body background="storage/uploads/Background.png">
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+    @if($loginErrors)
+        <div class="alert alert-danger alert-dismissible fade show">
+            <ul>
+                {{$loginErrors}}
+            </ul>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="container" style="margin-left: 250px;margin-top: 20px;">
         <div class="row">
             <div class="col-sm-4" style="background-color: #990066;width: 600px;height: 700px;border-radius: 40px;box-shadow: 0 0 10px rgba(0,0,0,0.5)">

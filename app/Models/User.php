@@ -58,7 +58,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(ZodiacModel::class,'zodiac_users','user_id','zodiac_id');
     }
     public function chat(){
-        return $this->belongsToMany(User::class,'user_chat','user_first','user_second')->withPivot('chat_id');
+        return $this->belongsToMany(User::class,'user_chat','user_first','user_second')->withPivot('chat_id','status','id');
     }
-
 }

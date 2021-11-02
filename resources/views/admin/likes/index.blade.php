@@ -11,11 +11,15 @@
         </thead>
         <tbody>
         @foreach($likes as $like)
+            @foreach($like->firstUser as $firstUser)
+                @foreach($like->secondUser as $secondUser)
             <tr>
                 <th scope="row">{{$like->id}}</th>
-                <td>{{$like->user_compliment_id}}</td>
-                <td>{{$like->user_liked_id}}</td>
+                <td>{{$firstUser->name}} {{$firstUser->surname}}</td>
+                <td>{{$secondUser->name}} {{$secondUser->surname }}</td>
             </tr>
+                    @endforeach
+                @endforeach
         @endforeach
         </tbody>
     </table>

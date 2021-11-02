@@ -16,8 +16,9 @@ class ProfileController extends Controller
     public function index()
     {
         $like = LikeUser::get()->where('user_compliment_id', '=' ,Auth::user()->id);
-        $message = session()->get('message');
-        return view('profile',compact('message','like'));
+        $changeMess = session()->get('changeMess');
+
+        return view('profile',compact('changeMess','like',));
     }
     public function change(ChangeRequest $request)
     {
@@ -37,7 +38,7 @@ class ProfileController extends Controller
             "description" => $request->get("description"),
         ]);
         $user->save();
-        session()->flash('message','Вы удачно изменили пользователя');
+        session()->flash('changeMess','Вы удачно изменили пользователя');
 
         return redirect(route('profile'));
     }

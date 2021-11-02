@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckAdminStatus;
+use App\Http\Middleware\CheckChatStatus;
 use App\Http\Middleware\CheckUserStatus;
 use App\Http\Middleware\CheckUserStatusNEW;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -69,5 +70,6 @@ class Kernel extends HttpKernel
         'check.status' => CheckUserStatus::class,
         'new.status' => CheckUserStatusNEW::class,
         'admin.status' => CheckAdminStatus::class,
+        'delete.chat' => CheckChatStatus::class,
     ];
 }

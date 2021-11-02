@@ -11,4 +11,13 @@ class LikeUser extends Model
 
     protected $table = 'like_user';
 
+    public function firstUser()
+    {
+        return $this->hasMany(User::class,'id','user_compliment_id');
+    }
+
+    public function secondUser()
+    {
+        return $this->hasMany(User::class,'id','user_liked_id');
+    }
 }

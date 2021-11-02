@@ -29,7 +29,9 @@ class AuthMainController extends Controller
     public function main()
     {
         $users = User::get();
-        return view('first',compact('users'));
+        $loginErrors = session()->get('loginErrors');
+
+        return view('first',compact('users','loginErrors'));
     }
 
     public function sendMessToEmail()
@@ -75,58 +77,46 @@ class AuthMainController extends Controller
             $users->orderby('age',$request->get('filter'));
             $selPar = $request->get('filter');
         }
-
         if($request->get('sex')){
             $users->where('sex',$request->get('sex'));
             $getSex = $request->get('sex');
         }
-
         if($request->get('town')){
             $users->where('town',$request->get('town'));
             $getTown = $request->get('town');
         }
-
         if($request->get('country')){
             $users->where('country',$request->get('country'));
             $getCountry = $request->get('country');
         }
-
         if($name = $request->get('nameFilled')){
             $users->where('name','LIKE',"%" . $name . "%");
             $getPar = $request->get('nameFilled');
         }
-
         if($request->get('surnameFilled')) {
             $users->where('surname', 'LIKE', "%" . $request->get('surnameFilled') . "%");
             $getPar = $request->get('surnameFilled');
         }
-
         if($request->get('min_age')){
             $users->where('age','>=', $request->get('min_age'));
             $getAgeMinPar = $request->get('min_age');
         }
-
         if($request->get('max_age')) {
             $users->where('age', '<=', $request->get('max_age'));
             $getAgeMaxPar = $request->get('max_age');
         }
-
-        $users = $users->paginate(12)
-                        ->withPath('?' . $request->getQueryString());
+        $maleCount = $users->get()->where('sex','=','Мужской')->count();
+        $femaleCount = $users->get()->where('sex','=','Женский')->count();
+        session()->flash('message', "Найдено {$users->count()} пользователей, {$maleCount} мужчин и {$femaleCount} женщин");
         $message = session()->get('message');
+        $users = $users->paginate(12)
+            ->withPath('?' . $request->getQueryString());
 
         return view('main', compact('users', 'getTown','getCountry','message','getSex', 'selPar', 'getPar','getAgeMinPar','getAgeMaxPar'));
     }
 
     public function login(LoginRequest $request)
     {
-        //=========================================================================
-
-//        if(User::where($request->get('email'),'!=','email')){
-//            session()->flash('loginErrors','Пользователя с такой почтой не существует');
-//
-//            return redirect()->back();
-//        }
         if (!Auth::attempt($request->only('email','password'))) {
             session()->flash('loginErrors','Неверно введены данные');
 
@@ -134,10 +124,9 @@ class AuthMainController extends Controller
         }
         else if (Auth::attempt($request->only('email','password'))){
             $user = Auth::user();
-            session()->flash('message','Вы успешно вошли');
-//            $this->sendMessToEmail();
-            return redirect()->route('index');
         }
+
+        return redirect()->route('index');
     }
 
     public function register(AuthRequest $request)

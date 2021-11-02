@@ -16,7 +16,7 @@ Route::post('/login',[\App\Http\Controllers\AuthMainController::class,'login'])-
 Route::post('/register',[\App\Http\Controllers\AuthMainController::class,'register'])->name('register');
 Route::get('/auth',[\App\Http\Controllers\AuthMainController::class, 'main'])->name('first');
 Route::get('/registration',[\App\Http\Controllers\AuthMainController::class, 'registration'])->name('homepage');
-Route::get('/index/chat/{id}',[\App\Http\Controllers\ChatModelController::class, 'index'])->name('chat.index')->middleware('auth:sanctum','check.status');
+Route::get('/index/chat/{id}',[\App\Http\Controllers\ChatModelController::class, 'index'])->name('chat.index')->middleware('auth:sanctum','check.status','delete.chat');
 Route::get('/',[\App\Http\Controllers\AuthMainController::class, 'index'])->name('index')->middleware('auth:sanctum', 'check.status');
 Route::get('/profile',[\App\Http\Controllers\ProfileController::class, 'index'])->name('profile')->middleware('auth:sanctum','check.status');
 Route::get('/verification',[\App\Http\Controllers\AuthMainController::class,'verification'])->name('verify')->middleware('auth:sanctum','new.status');
@@ -29,6 +29,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/change',[\App\Http\Controllers\ProfileController::class, 'change'])->name('change');
     Route::post('/index/chat/post',[\App\Http\Controllers\ChatModelController::class, 'postImage'])->name('chat.post');
     Route::post('/change_mess',[\App\Http\Controllers\ChatModelController::class, 'changeMess'])->name('changeMess');
+    Route::post('/block/user',[\App\Http\Controllers\ChatModelController::class, 'blockUser'])->name('blockUser');
+    Route::post('/unblock/user',[\App\Http\Controllers\ChatModelController::class, 'unBlockUser'])->name('unBlockUser');
+    Route::post('/delete/chat',[\App\Http\Controllers\ChatModelController::class, 'deleteChat'])->name('deleteChat');
+    Route::post('/recover/chat',[\App\Http\Controllers\ChatModelController::class, 'recoverChat'])->name('recoverChat');
+    Route::post('/read/chat/{id}',[\App\Http\Controllers\ChatModelController::class, 'read'])->name('read');
 });
 
 Route::middleware('admin.status')->group(function(){
@@ -40,4 +45,6 @@ Route::middleware('admin.status')->group(function(){
     Route::get('/admin/likes',[App\Http\Controllers\AdminController::class, 'likes'])->name('likes');
     Route::post('/admin/smiles/add',[\App\Http\Controllers\AdminController::class,'addSmile'])->name('addSmile');
     Route::post('/admin/smiles/delete',[\App\Http\Controllers\AdminController::class,'deleteSmile'])->name('deleteSmile');
+    Route::post('/admin/users/change/status',[\App\Http\Controllers\AdminController::class,'changeStatus'])->name('changeStatus');
+    Route::post('/admin/delete/chat',[\App\Http\Controllers\AdminController::class, 'deleteAdminChat'])->name('deleteAdminChat');
 });

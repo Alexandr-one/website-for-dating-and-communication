@@ -12,19 +12,26 @@
         }
     </style>
     <div  style="background:url('https://phonoteka.org/uploads/posts/2021-05/1620122691_54-phonoteka_org-p-fioletovii-fon-dlya-autro-62.jpg')">
-{{--        @if($message)--}}
-{{--            <div class="alert alert-success" role="alert">--}}
-{{--                {{ $message  }}--}}
-{{--            </div>--}}
-{{--        @endif--}}
+     @if($changeMess)
+           <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ $changeMess  }}
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+                </div>
+
+            @endif
 
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="alert alert-danger alert-dismissible fade show">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         @endif
         <div>
@@ -80,7 +87,10 @@
                 </div>
                 <div class="modal-body">
                     @foreach(Auth::user()->chat as $userChat)
-                        <a type="button" href="/index/chat/{{$userChat->id}}" style=" margin-left: 5px;background-color: #990066; border:none;" class="btn btn-sm btn-primary chating" >Перейти к чату c {{\App\Models\User::find($userChat->id)->name}} {{\App\Models\User::find($userChat->id)->surname}}</a><br><br>
+                        <button class="btn btn-warning"  style="border-radius: 50px;">
+                            {{\App\Models\Message::where('chat_id','=',$userChat->pivot->chat_id)->where('status','=','new')->where('author_id','!=',Auth::user()->id)->get()->count()}}
+                        </button>
+                        <a type="button" href="/index/chat/{{$userChat->id}}" style=" margin-left: 5px;background-color: #990066; border:none;" class="btn btn-sm btn-primary chating" >Перейти к чату c {{\App\Models\User::find($userChat->id)->name}} {{\App\Models\User::find($userChat->id)->surname}}</a> <br><br>
                     @endforeach
                 </div>
                 <div class="modal-footer">
